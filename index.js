@@ -1,6 +1,9 @@
 const inquirer = require("inquirer")
 const axios = require("axios");
 const generateHTML = require("./generateHTML")
+const fs = require("fs")
+const util = require("util");
+const writeFileAsync = util.promisify(fs.writeFile);
 
 inquirer
     .prompt([
@@ -20,14 +23,14 @@ inquirer
                 "red"
             ]
         }
-    ]).then(function ({ name }) {
+    ]).then(function ({ name, colors }) {
         const queryUrl = `https://api.github.com/users/${name}`;
-
         axios
             .get(queryUrl)
             .then(function (res) {
-
+                // console.log(colors)
                 const userProfile = {
+                    colorChoice: colors,
                     userImage: res.data.avatar_url,
                     name: res.data.name,
                     userLocation: res.data.location,
@@ -39,8 +42,10 @@ inquirer
                     stars: res.data.starred_url.length,
                     following: res.data.following
                 }
-                console.log(userProfile)
-                // generateHTML();
+                // console.log(userProfile)
+
+                writeFileAsync("index.html", generateHTML(userProfile));
+
 
 
             })
