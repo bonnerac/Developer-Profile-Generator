@@ -1,4 +1,6 @@
 const inquirer = require("inquirer")
+const axios = require("axios");
+const generateHTML = require("./generateHTML")
 
 inquirer
     .prompt([
@@ -18,21 +20,38 @@ inquirer
                 "red"
             ]
         }
-    ]).then(function (response) {
-        console.log(response)
+    ]).then(function ({ name }) {
+        const queryUrl = `https://api.github.com/users/${name}`;
 
+        axios
+            .get(queryUrl)
+            .then(function (res) {
+
+                const userProfile = {
+                    userImage: res.data.avatar_url,
+                    name: res.data.name,
+                    userLocation: res.data.location,
+                    gitHubProfile: res.data.html_url,
+                    blog: res.data.blog,
+                    bio: res.data.bio,
+                    publicRepos: res.data.public_repos,
+                    followers: res.data.followers,
+                    stars: res.data.starred_url.length,
+                    following: res.data.following
+                }
+                console.log(userProfile)
+                // generateHTML();
+
+
+            })
     })
 
 
-const questions = [
+// function writeToFile(fileName, data) {
 
-];
+// }
 
-function writeToFile(fileName, data) {
-
-}
-
-function init() {
-}
-init();
+// function init() {
+// }
+// init();
 

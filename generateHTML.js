@@ -171,4 +171,7 @@ function generateHTML(data) {
           } 
          }
       </style>`
-        }
+}
+
+module.exports.colors = colors;
+module.exports.generateHTML = generateHTML
