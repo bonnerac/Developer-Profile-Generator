@@ -19,6 +19,7 @@
   "homepage": "https://github.com/bonnerac/Developer-Profile-Generator#readme",
   "dependencies": {
     "axios": "^0.19.1",
+    "dotenv": "^8.2.0",
     "inquirer": "^7.0.3"
   }
 }
